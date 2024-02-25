@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "plugins": [
+    "testing-library"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.test.{js,jsx,ts,tsx}"], // Adjust file patterns as needed for your test files
+      "extends": [
+        "plugin:testing-library/react", // Extend the testing-library rules for React
+        "plugin:jest-dom/recommended" // Extend recommended rules for Jest DOM
+      ],
+      "rules": {
+        "testing-library/no-node-access": "off" // Turn off the rule about avoiding direct Node access
+      }
+    }
+  ]
+}
