@@ -7,12 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "tsc && jest --watch"
+    "test": "concurrently \"node cors-server.js\" \"tsc && jest\"",
+    "start-cors-server": "node cors-server.js"
   },
   "dependencies": {
+    "axios": "^1.6.7",
     "bootstrap": "^5.3.2",
+    "cors-anywhere": "^0.4.4",
+    "csv-parse": "^5.5.3",
     "jest-environment-jsdom": "^29.7.0",
     "next": "14.1.0",
+    "node-mocks-http": "^1.14.1",
     "react": "^18",
     "react-bootstrap": "^2.10.1",
     "react-dom": "^18"
@@ -25,8 +30,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/supertest": "^6.0.2",
     "autoprefixer": "^10.0.1",
+    "concurrently": "^8.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "eslint-plugin-jest-dom": "^5.1.0",
