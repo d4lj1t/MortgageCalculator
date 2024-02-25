@@ -76,4 +76,30 @@ describe('API handler works', () => {
         // Assertions for the error case
         expect(res.status).toHaveBeenCalledWith(500);
     });
+
+    // Test case for invalid input (e.g., non-numeric values)
+    it('handles invalid input correctly', async () => {
+        const req: NextApiRequest = {
+            method: 'POST',
+            body: {
+                price: 'invalid', // This value is not a number
+                deposit: '30000',
+                term: '25',
+                interestRate: '5',
+            },
+        } as any;
+
+        const res: NextApiResponse = {
+            status: jest.fn(() => res),
+            json: jest.fn(),
+        } as any;
+
+        await handler(req, res);
+
+        // Assertions for the invalid input case
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            error: 'Invalid input. Please provide numeric values for price, deposit, term, and interestRate.',
+        });
+    });
 });

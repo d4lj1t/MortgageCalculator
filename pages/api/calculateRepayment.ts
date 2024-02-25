@@ -10,6 +10,8 @@ import {
     calculateYearlyBreakdown,
 } from "@/utils/MortgageCalculator";
 
+import {isNumeric} from "@/helpers/isNumeric";
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Check if the request method is POST
     if (req.method !== 'POST') {
@@ -19,6 +21,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         // Extract data from the request body
         const { price, deposit, term, interestRate } = req.body;
+
+        if (!isNumeric(price) || !isNumeric(deposit) || !isNumeric(term) || !isNumeric(interestRate)) {
+            // If any input is not numeric, respond with a 400 status code
+            return res.status(400).json({ error: 'Invalid input. Please provide numeric values for price, deposit, term, and interestRate.' });
+        }
 
         // Calculate the monthly mortgage payment
         const monthlyPayment = calculateMonthlyPayment(
@@ -65,11 +72,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
 
         // Return the calculated values in the response
-        if (!res) {
-            console.error('Response object is not initialized.');
-            return;
-        }
-
         return res.status(200).json({
             monthlyPayment,
             totalPayments,
